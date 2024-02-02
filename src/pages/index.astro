@@ -127,7 +127,7 @@ import Search from "../icon/search.astro";
     }
     // fetch api latitude and longetude
     fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${APIKey}`,
+      `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${APIKey}`,
     )
       .then((response) => response.json())
       .then((json) => {
