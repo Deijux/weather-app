@@ -77,6 +77,34 @@ import Search from "../icon/search.astro";
   const allContent = document.querySelector(".allContent")!;
   const input = document.querySelector("input")!;
 
+  // Verificar si el navegador soporta la geolocalización
+  if ("geolocation" in navigator) {
+    const geoOptions: PositionOptions = {
+      enableHighAccuracy: true, // Solicitar alta precisión
+      timeout: 5000, // Tiempo máximo para obtener la ubicación (en milisegundos)
+      maximumAge: 0, // No utilizar la caché de ubicación anterior
+    };
+    // Obtener la ubicación actual
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        console.log(
+          `Ubicación actual: Latitud ${latitude}, Longitud ${longitude}`,
+        );
+
+        getWeather(latitude, longitude);
+      },
+      (error) => {
+        console.error("Error al obtener la ubicación:", error.message);
+      },
+      geoOptions,
+    );
+  } else {
+    console.error("La geolocalización no está soportada en este navegador");
+  }
+
   // keypress enter event
   input.addEventListener("keydown", (e) => {
     if (e.code === "Enter") {
