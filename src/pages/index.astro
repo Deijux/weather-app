@@ -9,7 +9,7 @@ import FeelsLike from "../icon/feelsLike.astro";
 
 <Layout title="Clima App">
   <main
-    class="flex h-dvh max-w-96 flex-col justify-center gap-7 p-5 text-white"
+    class="body flex h-dvh max-w-96 flex-col justify-center gap-7 p-5 text-white"
   >
     <header class="box grid gap-2">
       <h1 class="text-center text-xl font-bold">Weather App</h1>
@@ -98,7 +98,8 @@ import FeelsLike from "../icon/feelsLike.astro";
   //API Key openweather
   const APIKey = "51b68ad4b053555b95e008a6151ccd48";
 
-  // get text description
+  // get content
+  const body = document.querySelector(".body")!;
   const cityLocationBox = document.querySelector(".cityLocationBox")!;
   const cityLocationText = document.querySelector(".cityLocationText")!;
   const textTemperature = document.querySelector(".temperature")!;
@@ -112,6 +113,17 @@ import FeelsLike from "../icon/feelsLike.astro";
   const allowLocationButton = document.querySelector(".allowLocationButton")!;
   const alertAllowLocation = document.querySelector(".alertAllowLocation")!;
   const feelsLike = document.querySelector(".feelsLike")!;
+
+  // Check resolution
+  const checkResolutionHeight = (resolution: number) => {
+    if (
+      window.screen.height <= resolution &&
+      localStorage.getItem("enableLocation") === "false"
+    ) {
+      body.classList.remove("h-dvh");
+      body.classList.add("h-full");
+    }
+  };
 
   // check support location
   const getLocation = () => {
@@ -128,10 +140,6 @@ import FeelsLike from "../icon/feelsLike.astro";
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
 
-          console.log(
-            `Ubicación actual: Latitud ${latitude}, Longitud ${longitude}`,
-          );
-
           alertAllowLocation.classList.add("hidden");
 
           getWeather(latitude, longitude);
@@ -142,6 +150,7 @@ import FeelsLike from "../icon/feelsLike.astro";
           console.error("Error al obtener la ubicación:", error.message);
           localStorage.setItem("enableLocation", "false");
           alertAllowLocation.classList.remove("hidden");
+          checkResolutionHeight(900);
         },
         geoOptions,
       );
@@ -150,11 +159,13 @@ import FeelsLike from "../icon/feelsLike.astro";
     }
   };
 
+  // check in local storage
   if (localStorage.getItem("enableLocation") === "true") {
     alertAllowLocation.classList.add("hidden");
     getLocation();
   }
 
+  // click button search
   allowLocationButton.addEventListener("click", () => {
     getLocation();
   });
@@ -163,12 +174,14 @@ import FeelsLike from "../icon/feelsLike.astro";
   input.addEventListener("keydown", (e) => {
     if (e.code === "Enter") {
       searchLatitude();
+      checkResolutionHeight(900);
     }
   });
 
   // function search button
   search.addEventListener("click", () => {
     searchLatitude();
+    checkResolutionHeight(900);
   });
 
   // function search latitude and more
@@ -196,7 +209,6 @@ import FeelsLike from "../icon/feelsLike.astro";
     )
       .then((response) => response.json())
       .then((value) => {
-        console.log(value);
         // change image weather
         switch (value.weather[0].main) {
           case "Clear":
