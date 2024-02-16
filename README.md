@@ -8,7 +8,7 @@
 </p>
 
 <p>
-Weather App es un proyecto para la consulta del clima tanto local como mundial, puedes consultar datos como el porcentaje de humedad, la velocidad del viento, sensación términa y demás.
+Weather App es un proyecto para la consulta del clima tanto local como mundial, puedes consultar datos como el porcentaje de humedad, la velocidad del viento, sensación térmica y demás.
 </p>
 
 ![Astro Badge](https://img.shields.io/badge/Astro-BC52EE?logo=astro&logoColor=fff&style=flat)
