@@ -142,7 +142,7 @@ import FeelsLike from "../icon/feelsLike.astro";
 
           alertAllowLocation.classList.add("hidden");
 
-          getWeather(latitude, longitude);
+          getWeather({ lat: latitude, lon: longitude });
 
           localStorage.setItem("enableLocation", "true");
         },
@@ -185,7 +185,7 @@ import FeelsLike from "../icon/feelsLike.astro";
   });
 
   // function search latitude and more
-  const searchLatitude = () => {
+  const searchLatitude = async () => {
     //get input value
     const city = document.querySelector("input")!.value;
 
@@ -193,18 +193,18 @@ import FeelsLike from "../icon/feelsLike.astro";
       return;
     }
     // fetch api latitude and longetude
-    fetch(
+    await fetch(
       `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${APIKey}`,
     )
       .then((response) => response.json())
       .then((json) => {
-        getWeather(json[0].lat, json[0].lon);
+        getWeather({ lat: json[0].lat, lon: json[0].lon });
       });
   };
 
   // funtion get weather
-  const getWeather = (lat: number, lon: number) => {
-    fetch(
+  const getWeather = async ({ lat, lon }: { lat: number; lon: number }) => {
+    await fetch(
       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIKey}&lang=sp&units=metric`,
     )
       .then((response) => response.json())
