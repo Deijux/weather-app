@@ -36,7 +36,7 @@ import FeelsLike from "../icon/feelsLike.astro";
           <p class="cityLocationText font-bold">Ciudad</p>
         </div>
       </div>
-      <img class="image" src="/404.png" alt="" width="200px" />
+      <img class="image" src="/404.webp" alt="" width="200px" />
       <h1 class="textStart pt-4 text-2xl">
         Busca tu ciudad para consultar su clima actual!
       </h1>
@@ -212,31 +212,31 @@ import FeelsLike from "../icon/feelsLike.astro";
         // change image weather
         switch (value.weather[0].main) {
           case "Clear":
-            image.setAttribute("src", "/clear.png");
+            image.setAttribute("src", "/clear.webp");
             break;
 
           case "Rain":
-            image.setAttribute("src", "/rain.png");
+            image.setAttribute("src", "/rain.webp");
             break;
 
           case "Snow":
-            image.setAttribute("src", "/snow.png");
+            image.setAttribute("src", "/snow.webp");
             break;
 
           case "Clouds":
-            image.setAttribute("src", "/cloud.png");
+            image.setAttribute("src", "/cloud.webp");
             break;
 
           case "Mist":
-            image.setAttribute("src", "/mist.png");
+            image.setAttribute("src", "/mist.webp");
             break;
 
           case "Haze":
-            image.setAttribute("src", "/haze.png");
+            image.setAttribute("src", "/haze.webp");
             break;
 
           default:
-            image.setAttribute("src", "/404.png");
+            image.setAttribute("src", "/404.webp");
             break;
         }
 
