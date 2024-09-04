@@ -25,7 +25,6 @@ import FeelsLike from "../icon/feelsLike.astro";
           class="button rounded border border-gray-200 p-2 transition-transform hover:scale-110"
           aria-label="Search"
         >
-          Buscar
           <Search class="w-7" />
         </button>
       </div>
@@ -117,15 +116,20 @@ import FeelsLike from "../icon/feelsLike.astro";
   const feelsLike = document.querySelector(".feelsLike")!;
 
   // Check resolution
-  const checkResolutionHeight = (resolution: number) => {
-    if (
-      window.screen.height <= resolution &&
-      localStorage.getItem("enableLocation") === "false"
-    ) {
+  const checkResolution = () => {
+    const heightWindow = window.screen.height;
+    const resolutionBox = body.clientHeight;
+    if (heightWindow <= resolutionBox) {
       body.classList.remove("h-dvh");
       body.classList.add("h-full");
+    } else {
+      body.classList.add("h-dvh");
+      body.classList.remove("h-full");
     }
   };
+
+  window.addEventListener("DOMContentLoaded", checkResolution);
+  window.addEventListener("resize", checkResolution);
 
   // check support location
   const getLocation = () => {
@@ -152,9 +156,8 @@ import FeelsLike from "../icon/feelsLike.astro";
           console.error("Error al obtener la ubicación:", error.message);
           localStorage.setItem("enableLocation", "false");
           alertAllowLocation.classList.remove("hidden");
-          checkResolutionHeight(900);
         },
-        geoOptions,
+        geoOptions
       );
     } else {
       console.error("La geolocalización no está soportada en este navegador");
@@ -176,14 +179,12 @@ import FeelsLike from "../icon/feelsLike.astro";
   input.addEventListener("keydown", (e) => {
     if (e.code === "Enter") {
       searchLatitude();
-      checkResolutionHeight(900);
     }
   });
 
   // function search button
   search.addEventListener("click", () => {
     searchLatitude();
-    checkResolutionHeight(900);
   });
 
   // function search latitude and more
@@ -196,7 +197,7 @@ import FeelsLike from "../icon/feelsLike.astro";
     }
     // fetch api latitude and longetude
     await fetch(
-      `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${APIKey}`,
+      `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${APIKey}`
     )
       .then((response) => response.json())
       .then((json) => {
@@ -207,7 +208,7 @@ import FeelsLike from "../icon/feelsLike.astro";
   // funtion get weather
   const getWeather = async ({ lat, lon }: { lat: number; lon: number }) => {
     await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIKey}&lang=sp&units=metric`,
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIKey}&lang=sp&units=metric`
     )
       .then((response) => response.json())
       .then((value) => {
@@ -252,7 +253,7 @@ import FeelsLike from "../icon/feelsLike.astro";
         textTemperature.innerHTML = `${parseInt(value.main.temp)}°`;
         textDescription.innerHTML = `${value.weather[0].description}`;
         feelsLike.innerHTML = `Sensación de ${parseInt(
-          value.main.feels_like,
+          value.main.feels_like
         )}°`;
         textWind.innerHTML = `${parseInt(value.wind.speed)} km/h`;
         textHum.innerHTML = `${parseInt(value.main.humidity)}%`;
